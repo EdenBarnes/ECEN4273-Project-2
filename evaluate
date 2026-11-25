@@ -1,0 +1,14 @@
+from ultralytics import YOLO
+
+def evaluate_model(weights_path: str, data_yaml: str, split: str = "test"):
+    """Evaluate model on the test split and print per-class metrics."""
+    model = YOLO(weights_path)
+    metrics = model.val(data=data_yaml, split=split)
+
+    print(f"Overall mAP@0.5: {metrics.box.map50:.4f}")
+    for i, class_name in model.names.items():
+        p = metrics.box.p[i]
+        r = metrics.box.r[i]
+        f1 = 2 * (p * r) / (p + r + 1e-6)
+        ap50 = metrics.box.ap50[i]
+        print(f"{class_name:12s} | P: {p:.3f} | R: {r:.3f} | F1: {f1:.3f} | AP@0.5: {ap50:.3f}")

@@ -1,0 +1,11 @@
+path: ./dataset              # Root directory
+train: images/train
+val: images/val
+test: images/test
+
+names:
+  0: dalek
+  1: lightsaber
+  2: cat
+  3: dog
+  4: person
